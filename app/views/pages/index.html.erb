@@ -1,0 +1,56 @@
+<h1>Pages#index</h1>
+<p>Find me in app/views/pages/index.html.erb</p>
+
+
+<div id="demo"></div>
+<button onclick="getLocation()">Try it!</button>
+
+<br><br>
+
+<label for="latitud">Latitud</label>
+<input type="text" id="latitud">
+<br>
+<label for="longitud">Longitud</label>
+<input type="text" id="longitud">
+
+<button id="get_address">Buscar dirección</button>
+
+<ul id="direccion">
+
+</ul>
+
+
+
+
+
+<script>
+var x = document.getElementById("demo");
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+function showPosition(position) {
+    x.innerHTML = "Latitude: " + position.coords.latitude +
+    "<br>Longitude: " + position.coords.longitude;
+}
+
+$("#get_address").on('click',function() {
+  var lat = $("#latitud").val();
+  var lng = $("#longitud").val();
+
+  $.ajax({
+    url: '/pages/get_address',
+    type: 'POST',
+    dataType: 'script',
+    data: {
+      lat: lat,
+      lng: lng
+    },
+  })
+});
+
+
+</script>
